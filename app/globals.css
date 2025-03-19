@@ -52,7 +52,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #3064F6;
+  --primary: #3064f6;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -77,8 +77,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --font-sans: 'Eudoxus Sans', system-ui, -apple-system, sans-serif;
-  --font-geist-sans: 'Eudoxus Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: "Eudoxus Sans", system-ui, -apple-system, sans-serif;
+  --font-geist-sans: "Eudoxus Sans", system-ui, -apple-system, sans-serif;
 }
 
 .dark {
@@ -124,30 +124,34 @@
   }
 }
 
-
 @font-face {
-  font-family: 'Eudoxus Sans';
-  src: url('/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Regular.ttf') format('truetype');
+  font-family: "Eudoxus Sans";
+  src: url("/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Regular.ttf")
+    format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Eudoxus Sans';
-  src: url('/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Medium.ttf') format('truetype');
+  font-family: "Eudoxus Sans";
+  src: url("/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Eudoxus Sans';
-  src: url('/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Bold.ttf') format('truetype');
+  font-family: "Eudoxus Sans";
+  src: url("/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
-} 
+}
 
 .font-eudoxus-sans {
-  font-family: 'Eudoxus Sans', system-ui, -apple-system, sans-serif;
+  font-family:
+    "Eudoxus Sans",
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .bg-primary {
@@ -158,18 +162,18 @@
   color: var(--primary);
 }
 
-.text-soft-black{
+.text-soft-black {
   color: #181818;
 }
 
-.text-gray{
+.text-gray {
   color: #757575;
 }
 
-.border-gray{
-  border-color: #D9DBDD;
+.border-gray {
+  border-color: #d9dbdd;
 }
 
-.border-primary{
+.border-primary {
   border-color: var(--primary);
 }
