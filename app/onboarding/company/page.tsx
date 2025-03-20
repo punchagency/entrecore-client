@@ -2,7 +2,6 @@
 
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -11,11 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { BottomNav } from "@/components/bottom-nav";
 
 export default function CompanyPage() {
   const router = useRouter();
+  const [selectedBusinessType, setSelectedBusinessType] = useState<string | null>(null);
 
   const handleSaveAndContinue = () => {
     router.push("/onboarding/link-account");
@@ -26,31 +28,23 @@ export default function CompanyPage() {
   };
 
   return (
-    <div className="container max-w-3xl px-4 py-8">
-      <div className="mb-8">
-        <Progress value={66} className="h-2" />
-      </div>
-
-      <Card className="p-6">
-        <div className="space-y-8">
-          <div className="space-y-2">
-            <h1 className="text-2xl font-semibold text-center">About Your Company</h1>
-          </div>
-
+    <>
+      <Card className="w-full max-w-3xl mb-24">
+        <div className="space-y-8 p-6">
           <div className="space-y-6">
             <div className="space-y-4">
               <h2 className="text-xl font-medium text-primary">Company Info</h2>
               <div className="space-y-4">
-                <div className="space-y-2">
+                <div className="space-y-2 w-full">
                   <label className="text-sm font-medium">Company Name</label>
-                  <Input placeholder="Enter company name" />
+                  <Input placeholder="Enter company name" className="h-11 w-full" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">Year Founded</label>
                     <Select>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 w-full">
                         <SelectValue placeholder="Select year" />
                       </SelectTrigger>
                       <SelectContent>
@@ -62,10 +56,10 @@ export default function CompanyPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">Month Founded</label>
                     <Select>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 w-full">
                         <SelectValue placeholder="Select month" />
                       </SelectTrigger>
                       <SelectContent>
@@ -87,10 +81,10 @@ export default function CompanyPage() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">State Registered</label>
                     <Select>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 w-full">
                         <SelectValue placeholder="Select state" />
                       </SelectTrigger>
                       <SelectContent>
@@ -100,10 +94,10 @@ export default function CompanyPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">Business Entity Type</label>
                     <Select>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 w-full">
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -116,9 +110,12 @@ export default function CompanyPage() {
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 w-full">
                   <label className="text-sm font-medium">Company Bio and Overview</label>
-                  <Textarea placeholder="Tell us about your company..." className="min-h-[100px]" />
+                  <Textarea
+                    placeholder="Tell us about your company..."
+                    className="min-h-[100px] resize-none w-full"
+                  />
                 </div>
               </div>
             </div>
@@ -128,37 +125,24 @@ export default function CompanyPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Business Model Type</label>
                 <div className="grid grid-cols-3 gap-4">
-                  <Button
-                    variant="outline"
-                    className="h-auto py-4 px-6 flex flex-col items-center justify-center space-y-2"
-                  >
-                    <span className="font-medium">B2B</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-auto py-4 px-6 flex flex-col items-center justify-center space-y-2"
-                  >
-                    <span className="font-medium">B2C</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-auto py-4 px-6 flex flex-col items-center justify-center space-y-2"
-                  >
-                    <span className="font-medium">B2G</span>
-                  </Button>
+                  {["B2B", "B2C", "B2G"].map((type) => (
+                    <Button
+                      key={type}
+                      variant={selectedBusinessType === type ? "default" : "outline"}
+                      className="h-auto py-4 px-6 flex flex-col items-center justify-center w-full"
+                      onClick={() => setSelectedBusinessType(type)}
+                    >
+                      <span className="font-medium">{type}</span>
+                    </Button>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="flex justify-between items-center pt-6">
-            <Button variant="ghost" onClick={handleBack}>
-              Back
-            </Button>
-            <Button onClick={handleSaveAndContinue}>Save & Continue</Button>
-          </div>
         </div>
       </Card>
-    </div>
+
+      <BottomNav onBack={handleBack} onNext={handleSaveAndContinue} nextLabel="Save & Continue" />
+    </>
   );
 }

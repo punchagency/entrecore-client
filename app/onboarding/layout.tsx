@@ -20,8 +20,13 @@ export default async function OnboardingLayout({ children }: OnboardingLayoutPro
   return (
     <div className="min-h-screen flex flex-col">
       <OnboardingNav />
-      <main className="flex-1 flex flex-col">
-        <div className="flex-1 flex flex-col items-center justify-center w-full">{children}</div>
+      <main className="flex-1 flex flex-col pt-16">
+        {/* Banner */}
+        <div className="w-full bg-primary text-white py-8 px-4 text-center">
+          <h1 className="text-2xl font-semibold">About Your Company</h1>
+        </div>
+        {/* Content */}
+        <div className="flex-1 flex flex-col items-center w-full py-8 px-4 pb-24">{children}</div>
       </main>
     </div>
   );
