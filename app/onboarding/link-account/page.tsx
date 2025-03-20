@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function LinkAccountPage() {
   const router = useRouter();
@@ -88,8 +87,8 @@ export default function LinkAccountPage() {
       </div>
 
       {/* Fixed bottom buttons */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">
-        <div className="container max-w-3xl flex justify-between items-center">
+      <div className="fixed w-full bottom-0 left-0 right-0 bg-white border-t p-4">
+        <div className="container mw-full flex justify-between items-center">
           <Button variant="ghost" onClick={handleBack}>
             Back
           </Button>
