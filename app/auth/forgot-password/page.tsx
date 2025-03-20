@@ -13,7 +13,8 @@ import AuthHeader from "@/components/ui/auth-header";
 import { FloatingLabelInput } from "@/components/ui/floating-label-input";
 import Image from "next/image";
 import GoogleIconImage from "@/public/Svgs/google-icon-image.svg";
-import { GoogleButton, SubmitButton } from "@/components/ui/auth-buttons";
+import { SubmitButton } from "@/components/ui/auth-buttons";
+import AuthFooter from "@/components/ui/auth-footer";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -36,21 +37,16 @@ export default function LoginPage() {
     console.log(values);
   }
 
-  const handleGoogleLogin = () => {
-    console.log("Google login");
-  };
 
   return (
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
-      <AuthHeader buttonText="Create Account" onButtonClick={() => router.push("/auth/signup")} />
+      <AuthHeader buttonText="Login" onButtonClick={() => router.push("/auth/login")} />
       <div className="flex-1 flex items-center justify-center">
         <div className="w-[20vw]">
           <div className="flex flex-col gap-[0.521vw] mb-6">
-            <h1 className="text-primary font-medium text-[1.667vw]">Login</h1>
-            <p className="text-soft-black text-[1.042vw]">Welcome back</p>
+            <h1 className="text-primary font-medium text-[1.667vw]">Forgot Password</h1>
+            <p className="text-soft-black text-[1.042vw]">Enter your email address for a link to update your password.</p>
           </div>
-
-          <GoogleButton text="Login with Google" onClick={handleGoogleLogin} />
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -74,43 +70,14 @@ export default function LoginPage() {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="relative">
-                        <FloatingLabelInput
-                          type={passwordVisible ? "text" : "password"}
-                          label="Password"
-                          {...field}
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-2 top-1/2 -translate-y-1/2 hover:bg-transparent"
-                          onClick={() => setPasswordVisible(!passwordVisible)}
-                        >
-                          {passwordVisible ? (
-                            <EyeOff className="h-4 w-4 text-gray" />
-                          ) : (
-                            <Eye className="h-4 w-4 text-gray" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-            <SubmitButton text="Login" />
+              <SubmitButton text="Send Reset Info" />
             </form>
           </Form>
+
+          
         </div>
       </div>
+              <AuthFooter  />
     </div>
   );
 }

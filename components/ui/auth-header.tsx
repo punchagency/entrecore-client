@@ -1,22 +1,23 @@
-import Logo from "@/public/Svgs/Logo";
+import Logo from "@/public/Svgs/logo";
 
-interface NavbarProps {
+
+interface AuthHeaderProps {
   buttonText?: string;
   showOnboardingButtons?: boolean;
   onButtonClick?: () => void;
 }
 
-const Navbar = ({ 
-  buttonText = "Login", // default value
+const AuthHeader = ({ 
+  buttonText = "Login",
   showOnboardingButtons = false,
   onButtonClick 
-}: NavbarProps) => {
+}: AuthHeaderProps) => {
   return (
-    <div className="flex h-[calc(3.646vw+0.581vh)] justify-between items-center py-[0.781vw] px-[1.563vw] eudoxus-sans">
+    <div className="flex h-[70.003px] justify-between items-center py-[0.781vw] px-[1.563vw] eudoxus-sans">
       <Logo />
       
       <div className="flex items-center gap-4 h-full">
-        {/* Onboarding-specific buttons */}
+
         {showOnboardingButtons && (
           <>
             <button className="text-gray-600 font-medium">
@@ -31,10 +32,9 @@ const Navbar = ({
           </>
         )}
         
-        {/* Main action button */}
         <button 
           onClick={onButtonClick}
-          className="bg-blue-500 text-white px-[1.563vw] rounded-md font-medium h-full cursor-pointer"
+          className="bg-primary text-white px-[1.563vw] rounded-[0.321vw] font-medium h-full cursor-pointer text-[1.042vw]"
         >
           {buttonText}
         </button>
@@ -43,4 +43,4 @@ const Navbar = ({
   );
 };
 
-export default Navbar;
+export default AuthHeader;
