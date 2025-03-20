@@ -1,4 +1,4 @@
-import Logo from "@/public/Svgs/logo";
+import Logo from "@/public/svgs/logo";
 
 
 interface AuthHeaderProps {
@@ -7,15 +7,15 @@ interface AuthHeaderProps {
   onButtonClick?: () => void;
 }
 
-const AuthHeader = ({ 
+const AuthHeader = ({
   buttonText = "Login",
   showOnboardingButtons = false,
-  onButtonClick 
+  onButtonClick
 }: AuthHeaderProps) => {
   return (
     <div className="flex h-[70.003px] justify-between items-center py-[0.781vw] px-[1.563vw] eudoxus-sans">
       <Logo />
-      
+
       <div className="flex items-center gap-4 h-full">
 
         {showOnboardingButtons && (
@@ -31,8 +31,8 @@ const AuthHeader = ({
             </button>
           </>
         )}
-        
-        <button 
+
+        <button
           onClick={onButtonClick}
           className="bg-primary text-white px-[1.563vw] rounded-[0.321vw] font-medium h-full cursor-pointer text-[1.042vw]"
         >

@@ -8,29 +8,29 @@ import * as z from "zod";
 import { Eye, EyeOff } from "lucide-react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import AuthHeader  from "@/components/ui/auth-header";
-import { FloatingLabelInput } from "@/components/ui/floating-label-input";
-import { SubmitButton } from "@/components/ui/auth-buttons";
-import AuthFooter from "@/components/ui/auth-footer";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import AuthHeader from "@/components/auth-header";
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { SubmitButton } from "@/components/auth-buttons";
+import AuthFooter from "@/components/auth-footer";
 
-const formSchema = z.object({
-  password: z.string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/[a-z]/, "Password must contain at least 1 lowercase letter")
-    .regex(/[A-Z]/, "Password must contain at least 1 uppercase letter")
-    .regex(/[0-9!@#$%^&*(),.?":{}|<>]/, "Password must contain at least 1 number or special character"),
-  confirmPassword: z.string()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords must match",
-  path: ["confirmPassword"],
-});
+const formSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(/[a-z]/, "Password must contain at least 1 lowercase letter")
+      .regex(/[A-Z]/, "Password must contain at least 1 uppercase letter")
+      .regex(
+        /[0-9!@#$%^&*(),.?":{}|<>]/,
+        "Password must contain at least 1 number or special character"
+      ),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
 
 export default function CreatePasswordPage() {
   const router = useRouter();
@@ -99,7 +99,9 @@ export default function CreatePasswordPage() {
                           variant="ghost"
                           size="icon"
                           className="absolute right-2 top-1/2 -translate-y-1/2 hover:bg-transparent"
-                          onClick={() => setPasswordVisible(prev => ({ ...prev, password: !prev.password }))}
+                          onClick={() =>
+                            setPasswordVisible((prev) => ({ ...prev, password: !prev.password }))
+                          }
                         >
                           {passwordVisible.password ? (
                             <EyeOff className="h-4 w-4 text-gray" />
@@ -131,7 +133,12 @@ export default function CreatePasswordPage() {
                           variant="ghost"
                           size="icon"
                           className="absolute right-2 top-1/2 -translate-y-1/2 hover:bg-transparent"
-                          onClick={() => setPasswordVisible(prev => ({ ...prev, confirmPassword: !prev.confirmPassword }))}
+                          onClick={() =>
+                            setPasswordVisible((prev) => ({
+                              ...prev,
+                              confirmPassword: !prev.confirmPassword,
+                            }))
+                          }
                         >
                           {passwordVisible.confirmPassword ? (
                             <EyeOff className="h-4 w-4 text-gray" />
@@ -151,28 +158,46 @@ export default function CreatePasswordPage() {
                   <li className="flex items-center gap-[0.521vw]">
                     <FaCircleCheck
                       size={20}
-                      className={validations.hasLowerCase ? "text-primary" : "text-white bg-gray rounded-full"}
+                      className={
+                        validations.hasLowerCase
+                          ? "text-primary"
+                          : "text-white bg-gray rounded-full"
+                      }
                     />
                     <p className="text-soft-black text-[0.677vw]">At least 1 lower-case letter</p>
                   </li>
                   <li className="flex items-center gap-[0.521vw]">
                     <FaCircleCheck
                       size={20}
-                      className={validations.hasUpperCase ? "text-primary" : "text-white bg-gray rounded-full"}
+                      className={
+                        validations.hasUpperCase
+                          ? "text-primary"
+                          : "text-white bg-gray rounded-full"
+                      }
                     />
                     <p className="text-soft-black text-[0.677vw]">At least 1 upper-case letter</p>
                   </li>
                   <li className="flex items-center gap-[0.521vw]">
                     <FaCircleCheck
                       size={20}
-                      className={validations.hasNumberOrSpecial ? "text-primary" : "text-white bg-gray rounded-full"}
+                      className={
+                        validations.hasNumberOrSpecial
+                          ? "text-primary"
+                          : "text-white bg-gray rounded-full"
+                      }
                     />
-                    <p className="text-soft-black text-[0.677vw]">At least 1 number or special character letter (e.g @#$)</p>
+                    <p className="text-soft-black text-[0.677vw]">
+                      At least 1 number or special character letter (e.g @#$)
+                    </p>
                   </li>
                   <li className="flex items-center gap-[0.521vw]">
                     <FaCircleCheck
                       size={20}
-                      className={validations.hasMinLength ? "text-primary" : "text-white bg-gray rounded-full"}
+                      className={
+                        validations.hasMinLength
+                          ? "text-primary"
+                          : "text-white bg-gray rounded-full"
+                      }
                     />
                     <p className="text-soft-black text-[0.677vw]">At least 8 total characters</p>
                   </li>
@@ -184,7 +209,7 @@ export default function CreatePasswordPage() {
           </Form>
         </div>
       </div>
-      <AuthFooter  />
+      <AuthFooter />
     </div>
   );
 }

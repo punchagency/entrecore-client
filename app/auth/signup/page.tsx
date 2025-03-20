@@ -6,10 +6,10 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Check } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import AuthHeader from "@/components/ui/auth-header";
-import { FloatingLabelInput } from "@/components/ui/floating-label-input";
-import CustomPhoneInput from "@/components/ui/phone-input";
-import { GoogleButton, SubmitButton } from "@/components/ui/auth-buttons";
+import AuthHeader from "@/components/auth-header";
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import CustomPhoneInput from "@/components/phone-input";
+import { GoogleButton, SubmitButton } from "@/components/auth-buttons";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,7 +37,7 @@ export default function SignupPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = () => {
     router.push("/auth/create-password");
   }
 
@@ -55,10 +55,7 @@ export default function SignupPage() {
             <p className="text-soft-black text-[1.042vw]">Create your account</p>
           </div>
 
-          <GoogleButton
-            text="Sign up with Google"
-            onClick={handleGoogleSignup}
-          />
+          <GoogleButton text="Sign up with Google" onClick={handleGoogleSignup} />
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -131,10 +128,7 @@ export default function SignupPage() {
                   <FormItem>
                     <FormControl>
                       <div className="relative">
-                        <CustomPhoneInput
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
+                        <CustomPhoneInput value={field.value} onChange={field.onChange} />
                         {field.value &&
                           field.value.length >= 10 &&
                           !form.getFieldState("phone_number").error && (

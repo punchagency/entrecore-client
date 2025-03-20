@@ -9,12 +9,12 @@ import { ArrowRight, Check, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import AuthHeader from "@/components/ui/auth-header";
-import { FloatingLabelInput } from "@/components/ui/floating-label-input";
+import AuthHeader from "@/components/auth-header";
+import { FloatingLabelInput } from "@/components/floating-label-input";
 import Image from "next/image";
 import GoogleIconImage from "@/public/Svgs/google-icon-image.svg";
-import { SubmitButton } from "@/components/ui/auth-buttons";
-import AuthFooter from "@/components/ui/auth-footer";
+import { SubmitButton } from "@/components/auth-buttons";
+import AuthFooter from "@/components/auth-footer";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,7 +37,6 @@ export default function LoginPage() {
     console.log(values);
   }
 
-
   return (
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
       <AuthHeader buttonText="Login" onButtonClick={() => router.push("/auth/login")} />
@@ -45,7 +44,9 @@ export default function LoginPage() {
         <div className="w-[20vw]">
           <div className="flex flex-col gap-[0.521vw] mb-6">
             <h1 className="text-primary font-medium text-[1.667vw]">Forgot Password</h1>
-            <p className="text-soft-black text-[1.042vw]">Enter your email address for a link to update your password.</p>
+            <p className="text-soft-black text-[1.042vw]">
+              Enter your email address for a link to update your password.
+            </p>
           </div>
 
           <Form {...form}>
@@ -73,11 +74,9 @@ export default function LoginPage() {
               <SubmitButton text="Send Reset Info" />
             </form>
           </Form>
-
-          
         </div>
       </div>
-              <AuthFooter  />
+      <AuthFooter />
     </div>
   );
 }

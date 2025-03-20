@@ -5,15 +5,12 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { ArrowRight, Check, Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
+import { Check, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import AuthHeader from "@/components/ui/auth-header";
-import { FloatingLabelInput } from "@/components/ui/floating-label-input";
-import Image from "next/image";
-import GoogleIconImage from "@/public/Svgs/google-icon-image.svg";
-import { GoogleButton, SubmitButton } from "@/components/ui/auth-buttons";
+import AuthHeader from "@/components/auth-header";
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { GoogleButton, SubmitButton } from "@/components/auth-buttons";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -106,7 +103,7 @@ export default function LoginPage() {
                 )}
               />
 
-            <SubmitButton text="Login" />
+              <SubmitButton text="Login" />
             </form>
           </Form>
         </div>
