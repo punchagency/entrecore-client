@@ -1,6 +1,5 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -29,7 +28,7 @@ export default function CompanyPage() {
 
   return (
     <>
-      <Card className="w-full max-w-3xl mb-24">
+      <div className="w-full max-w-3xl mb-24">
         <div className="space-y-8 p-6">
           <div className="space-y-6">
             <div className="space-y-4">
@@ -37,14 +36,14 @@ export default function CompanyPage() {
               <div className="space-y-4">
                 <div className="space-y-2 w-full">
                   <label className="text-sm font-medium">Company Name</label>
-                  <Input placeholder="Enter company name" className="h-11 w-full" />
+                  <Input placeholder="Enter company name" className="w-full" size="lg" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">Year Founded</label>
                     <Select>
-                      <SelectTrigger className="h-11 w-full">
+                      <SelectTrigger className="w-full" size="lg">
                         <SelectValue placeholder="Select year" />
                       </SelectTrigger>
                       <SelectContent>
@@ -59,7 +58,7 @@ export default function CompanyPage() {
                   <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">Month Founded</label>
                     <Select>
-                      <SelectTrigger className="h-11 w-full">
+                      <SelectTrigger className="w-full" size="lg">
                         <SelectValue placeholder="Select month" />
                       </SelectTrigger>
                       <SelectContent>
@@ -84,7 +83,7 @@ export default function CompanyPage() {
                   <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">State Registered</label>
                     <Select>
-                      <SelectTrigger className="h-11 w-full">
+                      <SelectTrigger className="w-full" size="lg">
                         <SelectValue placeholder="Select state" />
                       </SelectTrigger>
                       <SelectContent>
@@ -97,7 +96,7 @@ export default function CompanyPage() {
                   <div className="space-y-2 w-full">
                     <label className="text-sm font-medium">Business Entity Type</label>
                     <Select>
-                      <SelectTrigger className="h-11 w-full">
+                      <SelectTrigger className="w-full" size="lg">
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -140,7 +139,7 @@ export default function CompanyPage() {
             </div>
           </div>
         </div>
-      </Card>
+      </div>
 
       <BottomNav onBack={handleBack} onNext={handleSaveAndContinue} nextLabel="Save & Continue" />
     </>
