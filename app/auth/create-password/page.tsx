@@ -63,6 +63,7 @@ export default function CreatePasswordPage() {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    router.push("/onboarding");
     console.log(values);
   }
 
