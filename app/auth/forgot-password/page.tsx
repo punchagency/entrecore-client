@@ -1,35 +1,26 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { ArrowRight, Check, Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import {  Check,} from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import AuthHeader from "@/components/ui/auth-header";
-import { FloatingLabelInput } from "@/components/ui/floating-label-input";
-import Image from "next/image";
-import GoogleIconImage from "@/public/Svgs/google-icon-image.svg";
-import { SubmitButton } from "@/components/ui/auth-buttons";
-import AuthFooter from "@/components/ui/auth-footer";
+import AuthHeader from "@/components/auth-header";
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { SubmitButton } from "@/components/auth-buttons";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const router = useRouter();
-  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
@@ -77,7 +68,7 @@ export default function LoginPage() {
           
         </div>
       </div>
-              <AuthFooter  />
+          
     </div>
   );
 }

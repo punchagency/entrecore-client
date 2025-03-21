@@ -1,5 +1,5 @@
 import Logo from "@/public/Svgs/logo";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 
 interface AuthHeaderProps {
   buttonText?: string;
@@ -19,6 +19,8 @@ const AuthHeader = ({
   return (
     <div className="flex h-[70.003px] justify-between items-center py-[0.781vw] px-[1.563vw]">
       <Logo />
+
+      <div className="flex items-center gap-4 h-full">
 
       <div className="flex items-center gap-4 h-full">
         {showOnboardingButtons && (
@@ -43,14 +45,16 @@ const AuthHeader = ({
             </Button>
           </div>
         )}
-      </div>    
 
-      <button
-        onClick={onButtonClick}
-        className="bg-primary text-white px-[1.563vw] rounded-[0.321vw] font-medium h-full cursor-pointer text-[1.042vw]"
-      >
-        {buttonText}
-      </button>
+
+        <button
+          onClick={onButtonClick}
+          className="bg-primary text-white px-[1.563vw] rounded-[0.321vw] font-medium h-full cursor-pointer text-[1.042vw]"
+        >
+          {buttonText}
+        </button>
+      </div>
+    </div>
     </div>
   );
 };
