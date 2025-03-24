@@ -1,41 +1,33 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { ArrowRight, Check, Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import {  Check,} from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import AuthHeader from "@/components/auth-header";
 import { FloatingLabelInput } from "@/components/floating-label-input";
-import Image from "next/image";
-import GoogleIconImage from "@/public/Svgs/google-icon-image.svg";
 import { SubmitButton } from "@/components/auth-buttons";
-import AuthFooter from "@/components/auth-footer";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const router = useRouter();
-  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
 
   return (
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
@@ -44,9 +36,7 @@ export default function LoginPage() {
         <div className="w-[20vw]">
           <div className="flex flex-col gap-[0.521vw] mb-6">
             <h1 className="text-primary font-medium text-[1.667vw]">Forgot Password</h1>
-            <p className="text-soft-black text-[1.042vw]">
-              Enter your email address for a link to update your password.
-            </p>
+            <p className="text-soft-black text-[1.042vw]">Enter your email address for a link to update your password.</p>
           </div>
 
           <Form {...form}>
@@ -74,9 +64,11 @@ export default function LoginPage() {
               <SubmitButton text="Send Reset Info" />
             </form>
           </Form>
+
+          
         </div>
       </div>
-      <AuthFooter />
+          
     </div>
   );
 }

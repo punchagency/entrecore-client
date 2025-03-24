@@ -20,7 +20,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   const { toggleSidebar } = useSidebar();
-  const isActive = (url: string) => pathname === url;
+  const isActive = (url: string) => pathname.includes(url);
 
   const sidebarTopItems = [
     {

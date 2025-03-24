@@ -1,36 +1,51 @@
-import Logo from "@/public/svgs/logo";
-
+import Logo from "@/public/Svgs/logo";
+import { Button } from "@/components/ui/button";
 
 interface AuthHeaderProps {
   buttonText?: string;
   showOnboardingButtons?: boolean;
   onButtonClick?: () => void;
+  currentTab?: string;
+  setCurrentTab?: (tab: string) => void;
 }
 
 const AuthHeader = ({
   buttonText = "Login",
   showOnboardingButtons = false,
-  onButtonClick
+  onButtonClick,
+  currentTab,
+  setCurrentTab,
 }: AuthHeaderProps) => {
   return (
-    <div className="flex h-[70.003px] justify-between items-center py-[0.781vw] px-[1.563vw] eudoxus-sans">
+    <div className="flex h-[70.003px] justify-between items-center py-[0.781vw] px-[1.563vw]">
       <Logo />
 
       <div className="flex items-center gap-4 h-full">
 
+      <div className="flex items-center gap-4 h-full">
         {showOnboardingButtons && (
-          <>
-            <button className="text-gray-600 font-medium">
-              About Us
-            </button>
-            <button className="text-gray-600 font-medium">
-              Features
-            </button>
-            <button className="text-gray-600 font-medium">
-              Pricing
-            </button>
-          </>
+          <div className="flex items-center gap-[1.625vw] bg-[#EFF4FF] rounded-[60px]">
+            <Button
+              onClick={() => setCurrentTab?.("You")}
+              className={`text-gray-600 bg-transparent font-medium  px-[2.625vw] cursor-pointer hover:bg-transparent transition-all duration-300 ${currentTab === "You" ? "bg-primary text-white rounded-[60px] py-[0.313vw]" : ""}`}
+            >
+              You
+            </Button>
+            <Button
+              onClick={() => setCurrentTab?.("Company")}
+              className={`text-gray-600 bg-transparent font-medium  px-[2.625vw] cursor-pointer hover:bg-transparent transition-all duration-300 ${currentTab === "Company" ? "bg-primary text-white rounded-[60px] py-[0.313vw]" : ""}`}
+            >
+              Company
+            </Button>
+            <Button
+              onClick={() => setCurrentTab?.("Link Account")}
+              className={`text-gray-600 bg-transparent font-medium  px-[2.625vw] cursor-pointer hover:bg-transparent transition-all duration-300 ${currentTab === "Link Account" ? "bg-primary text-white rounded-[60px] py-[0.313vw]" : ""}`}
+            >
+              Link Account
+            </Button>
+          </div>
         )}
+
 
         <button
           onClick={onButtonClick}
@@ -39,6 +54,7 @@ const AuthHeader = ({
           {buttonText}
         </button>
       </div>
+    </div>
     </div>
   );
 };
