@@ -30,7 +30,7 @@ export default function DataRoomLayout({ children }: { children: React.ReactNode
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-[#EFF4FF] h-screen">
+    <div className="bg-[#EFF4FF] h-screen w-full">
       <div className="flex items-center justify-between py-[1.25vw] px-[1.563vw] border-b border-gray-200">
         <h1 className="flex items-center gap-2 text-[1.146vw] font-bold   ">
           {pathname !== "/data-room" && (

@@ -57,9 +57,10 @@ export function FileFormDialog({ open, onOpenChange, mode, initialData }: FileFo
     },
   });
 
-  console.log(initialData);
 
   const [itemdata, setItemData] = useState(initialData);
+
+  console.log(itemdata);
 
   useEffect(() => {
     if (initialData && open) {
@@ -89,13 +90,17 @@ export function FileFormDialog({ open, onOpenChange, mode, initialData }: FileFo
 
   const getFileIcon = (fileName: string) => {
     const extension = fileName.split(".").pop()?.toLowerCase();
-
+    console.log(extension);
     switch (extension) {
       case "pdf":
         return pdfIcon;
       case "xls":
         return excelIcon;
+      case "xlsx":
+        return excelIcon;
       case "doc":
+        return docIcon;
+      case "docx":
         return docIcon;
       default:
         return docIcon;
@@ -193,7 +198,7 @@ export function FileFormDialog({ open, onOpenChange, mode, initialData }: FileFo
                 <div className="flex items-center justify-between gap-2 bg-white p-[0.417vw] rounded-md text-[0.885vw] font-medium">
                   <div className="flex items-center gap-2">
                     <div className="rounded-[0.125vw] bg-[#EFF4FF] flex items-center justify-center p-[0.325vw]">
-                      <Image src={getFileIcon(itemdata.name)} alt="pdf" width={20} height={20} />
+                      <Image src={getFileIcon(form.watch("file")?.name || itemdata.name)} alt="pdf" width={20} height={20} />
                     </div>
                     {form.watch("file") ? form.watch("file").name : itemdata.name}
                   </div>

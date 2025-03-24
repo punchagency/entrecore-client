@@ -19,28 +19,26 @@ import Image from "next/image";
 import pdfIcon from "@/public/Svgs/pdf-icon.svg";
 import excelIcon from "@/public/Svgs/xls-icon.svg";
 import docIcon from "@/public/Svgs/docx-icon.svg";
-import { EllipsisVertical, Search, Trash, Trash2 } from "lucide-react";
+import { EllipsisVertical, Search } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { FileFormDialog } from "@/components/file-form-dialog";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import { DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import DeleteFileDialog from "@/components/delete-file-dialog";
+
+interface Data {
+  id: number;
+  name: string;
+  description: string;
+  AddedOn: string;
+}
 
 const CompanyDocuments = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
-
-  const data = [
+  const [searchQuery, setSearchQuery] = useState("");
+  console.log(searchQuery);
+  const [data, setData] = useState<Data[]>([
     {
       id: 1,
       name: "Composite File Name.doc",
@@ -77,7 +75,25 @@ const CompanyDocuments = () => {
       description: "This is the dummy description being put to use for only design purpose...",
       AddedOn: "21/03/2025",
     },
-  ];
+    {
+      id: 7,
+      name: "Test File Name.xlsx",
+      description: "This is the dummy description being put to use for only design purpose...",
+      AddedOn: "21/03/2025",
+    },
+    {
+      id: 8,
+      name: "Search File Name.docx",
+      description: "This is the dummy description being put to use for only design purpose...",
+      AddedOn: "21/03/2025",
+    },
+  ]);
+
+  const filteredData = data.filter(
+    (item) =>
+      item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) 
+  );
+
 
   const getFileIcon = (fileName: string) => {
     const extension = fileName?.split(".").pop()?.toLowerCase();
@@ -87,7 +103,11 @@ const CompanyDocuments = () => {
         return pdfIcon;
       case "xls":
         return excelIcon;
+      case "xlsx":
+        return excelIcon;
       case "doc":
+        return docIcon;
+      case "docx":
         return docIcon;
       default:
         return docIcon;
@@ -103,7 +123,13 @@ const CompanyDocuments = () => {
             color="#000000"
             className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none w-[1.042vw]"
           />
-          <Input type="text" placeholder="Search" className="w-full rounded-full pl-[2.321vw] pr-[0.208vw]" />
+          <Input
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            className="w-full rounded-full pl-[2.321vw] pr-[0.208vw]"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
       </div>
       <div className="w-full">
@@ -117,7 +143,7 @@ const CompanyDocuments = () => {
           </TableHeader>
 
           <TableBody className="text-[0.885vw]  font-medium gap-[0.521vw]">
-            {data.map((item) => (
+            {filteredData.length === 0 ? data.map((item) => (
               <TableRow className="bg-white" key={item.id}>
                 <TableCell className="font-medium first:rounded-tl-[0.321vw] first:rounded-bl-[0.321vw]">
                   <div className="flex items-center gap-2">
@@ -177,7 +203,71 @@ const CompanyDocuments = () => {
                           selectedItem={selectedItem}
                           getFileIcon={getFileIcon}
                         />
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </TableCell>
+              </TableRow>
+            )): filteredData.map((item) => (
+              <TableRow className="bg-white" key={item.id}>
+                <TableCell className="font-medium first:rounded-tl-[0.321vw] first:rounded-bl-[0.321vw]">
+                  <div className="flex items-center gap-2">
+                    <div className="rounded-[0.125vw] bg-[#EFF4FF] flex items-center justify-center p-[0.325vw]">
+                      <Image src={getFileIcon(item.name)} alt="pdf" width={20} height={20} />
+                    </div>
+                    {item.name}
+                  </div>
+                </TableCell>
 
+                <TableCell>
+                  {" "}
+                  <Popover>
+                    <PopoverTrigger>{item.description}</PopoverTrigger>{" "}
+                    <PopoverContent className="w-[17.396vw] bg-[#192131] text-white relative before:content-[''] before:absolute before:-top-2 before:left-[50%] before:translate-x-[-50%] before:w-0 before:h-0 before:border-l-[8px] before:border-l-transparent before:border-r-[8px] before:border-r-transparent before:border-b-[8px] before:border-b-[#192131]">
+                      <p>{item.description}</p>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+                <TableCell className="last:rounded-tr-[0.321vw] last:rounded-br-[0.321vw]">
+                  <div className="flex items-center justify-between gap-2">
+                    {item.AddedOn}
+                    <DropdownMenu>
+                      {" "}
+                      <DropdownMenuTrigger>
+                        <EllipsisVertical size={24} color="black" className="cursor-pointer" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="mr-12 font-bold ">
+                        <DropdownMenuItem
+                          onSelect={(event) => {
+                            event.preventDefault();
+                            setSelectedItem(item);
+                            setEditOpen(true);
+                          }}
+                        >
+                          Edit
+                        </DropdownMenuItem>
+                        <FileFormDialog
+                          open={editOpen}
+                          onOpenChange={setEditOpen}
+                          mode="edit"
+                          initialData={selectedItem}
+                        />
+                        <DropdownMenuItem>Download</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={(event) => {
+                            event.preventDefault();
+                            setSelectedItem(item);
+                            setDeleteOpen(true);
+                          }}
+                        >
+                          Delete
+                        </DropdownMenuItem>
+                        <DeleteFileDialog
+                          deleteOpen={deleteOpen}
+                          setDeleteOpen={setDeleteOpen}
+                          selectedItem={selectedItem}
+                          getFileIcon={getFileIcon}
+                        />
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

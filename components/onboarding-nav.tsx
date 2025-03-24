@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
 
 export function OnboardingNav() {
   const pathname = usePathname();
@@ -23,10 +26,10 @@ export function OnboardingNav() {
   ];
 
   return (
-    <div className="w-full border-b bg-white fixed top-0 z-50">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="font-semibold text-3xl text-primary">
-          entrecore
+    <div className="w-full border-b border-[#D9DBDD] bg-white fixed top-0 z-50">
+      <div className="container flex h-16 items-center justify-between gap-5">
+        <Link href="/" className="mx-5">
+          <Image src="/svgs/logo.svg" alt="Logo" width={150} height={24} />
         </Link>
         <div className="flex bg-gray-100/80 rounded-full p-1">
           {navItems.map((item) => (
@@ -44,11 +47,10 @@ export function OnboardingNav() {
             </Link>
           ))}
         </div>
-        <Link
-          href="/dashboard"
-          className="text-sm text-muted-foreground hover:text-primary transition-colors"
-        >
-          Skip
+        <Link href="/dashboard" className="">
+          <Button variant="outline" className="rounded-lg w-20 cursor-pointer">
+            Skip
+          </Button>
         </Link>
       </div>
     </div>

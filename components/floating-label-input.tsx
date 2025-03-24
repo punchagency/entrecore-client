@@ -7,7 +7,7 @@ interface FloatingLabelInputProps extends React.InputHTMLAttributes<HTMLInputEle
 }
 
 export const FloatingLabelInput = React.forwardRef<HTMLInputElement, FloatingLabelInputProps>(
-  ({ label, type = "text", value, onChange, name, className, ...props }, ref) => {
+  ({ label, type = "text", value, onChange, name, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== "";
 
@@ -26,10 +26,11 @@ export const FloatingLabelInput = React.forwardRef<HTMLInputElement, FloatingLab
         />
         <label
           htmlFor={name}
-          className={`absolute left-3 transition-all duration-200 
-            ${isFocused || hasValue
-              ? "-top-2.5 text-[0.625vw] bg-white px-1 text-gray"
-              : "top-1/2 -translate-y-1/2 text-gray"
+          className={`absolute left-3 transition-all duration-200
+            ${
+              isFocused || hasValue
+                ? "-top-2.5 text-[0.625vw] bg-white px-1 text-gray"
+                : "top-1/2 -translate-y-1/2 text-gray"
             } peer-focus:-top-2.5 peer-focus:text-[0.625vw] peer-focus:bg-white peer-focus:px-1 peer-focus:rounded-[0.208vw] peer-focus:text-primary pointer-events-none`}
         >
           {label}

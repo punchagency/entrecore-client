@@ -1,6 +1,5 @@
 'use client'
-import { Button } from "@/components/ui/button";
-import { Building2, File, History, Landmark, Plus, Scale, SquareUserRound } from "lucide-react";
+import { Building2, File, History, Landmark, Scale, SquareUserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const DataRoomPage = () => {
