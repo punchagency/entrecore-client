@@ -2,7 +2,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -12,8 +11,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -22,12 +19,26 @@ import Image from "next/image";
 import pdfIcon from "@/public/Svgs/pdf-icon.svg";
 import excelIcon from "@/public/Svgs/xls-icon.svg";
 import docIcon from "@/public/Svgs/docx-icon.svg";
-import { EllipsisVertical, Search } from "lucide-react";
+import { EllipsisVertical, Search, Trash, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { FileFormDialog } from "@/components/file-form-dialog";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+} from "@/components/ui/dialog";
+import { DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import DeleteFileDialog from "@/components/delete-file-dialog";
 
 const CompanyDocuments = () => {
-  const [showMenu, setShowMenu] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const data = [
     {
@@ -69,8 +80,7 @@ const CompanyDocuments = () => {
   ];
 
   const getFileIcon = (fileName: string) => {
-    const extension = fileName.split(".").pop()?.toLowerCase();
-    console.log(extension);
+    const extension = fileName?.split(".").pop()?.toLowerCase();
 
     switch (extension) {
       case "pdf":
@@ -88,17 +98,12 @@ const CompanyDocuments = () => {
     <div className="flex flex-col items-start px-[1.563vw]">
       <div className="flex items-center justify-between w-full">
         <h3 className="text-[1.146vw] font-bold py-[1.763vw]  ">Added Documents</h3>
-        <div className="relative w-[200px]">
+        <div className="relative w-[10.417vw]">
           <Search
-            size={20}
             color="#000000"
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none w-[1.042vw]"
           />
-          <Input
-            type="text"
-            placeholder="Search"
-            className="w-full rounded-full pl-10 pr-4" // Changed padding to left side
-          />
+          <Input type="text" placeholder="Search" className="w-full rounded-full pl-[2.321vw] pr-[0.208vw]" />
         </div>
       </div>
       <div className="w-full">
@@ -141,9 +146,38 @@ const CompanyDocuments = () => {
                         <EllipsisVertical size={24} color="black" className="cursor-pointer" />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="mr-12 font-bold ">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={(event) => {
+                            event.preventDefault();
+                            setSelectedItem(item);
+                            setEditOpen(true);
+                          }}
+                        >
+                          Edit
+                        </DropdownMenuItem>
+                        <FileFormDialog
+                          open={editOpen}
+                          onOpenChange={setEditOpen}
+                          mode="edit"
+                          initialData={selectedItem}
+                        />
                         <DropdownMenuItem>Download</DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={(event) => {
+                            event.preventDefault();
+                            setSelectedItem(item);
+                            setDeleteOpen(true);
+                          }}
+                        >
+                          Delete
+                        </DropdownMenuItem>
+                        <DeleteFileDialog
+                          deleteOpen={deleteOpen}
+                          setDeleteOpen={setDeleteOpen}
+                          selectedItem={selectedItem}
+                          getFileIcon={getFileIcon}
+                        />
+
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -152,7 +186,7 @@ const CompanyDocuments = () => {
             ))}
           </TableBody>
         </Table>
-      <hr className="w-full border-gray-200 my-[1.25vw]"/>
+        <hr className="w-full border-gray-200 my-[1.25vw]" />
       </div>
     </div>
   );
