@@ -44,7 +44,7 @@ export function AnalyticsCard({ title, value, percentageChange, className }: Ana
       </CardHeader>
       <CardContent>
         <div className="flex items-baseline gap-2">
-          <div className="text-4xl font-bold">{formattedValue}</div>
+          <div className="text-2xl font-bold">{formattedValue}</div>
           <div className="flex items-center gap-1">
             {isPositiveChange ? (
               <ArrowUpIcon className="h-4 w-4 text-[#3064F6]" />
