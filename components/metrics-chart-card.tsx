@@ -94,8 +94,8 @@ export function MetricsChartCard({
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3064F6" stopOpacity={0.1} />
-                    <stop offset="95%" stopColor="#3064F6" stopOpacity={0.0} />
+                    <stop offset="0%" stopColor="#3064F6" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#3064F6" stopOpacity={0.15} />
                   </linearGradient>
                 </defs>
                 <XAxis
@@ -116,12 +116,19 @@ export function MetricsChartCard({
                   type="monotone"
                   dataKey="value"
                   stroke="#3064F6"
+                  strokeWidth={2}
                   fillOpacity={1}
                   fill="url(#colorValue)"
                 />
               </AreaChart>
             ) : (
               <BarChart data={chartData}>
+                <defs>
+                  <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#A05BF8" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#A05BF8" stopOpacity={0.15} />
+                  </linearGradient>
+                </defs>
                 <XAxis
                   dataKey="name"
                   stroke="#888888"
@@ -130,7 +137,7 @@ export function MetricsChartCard({
                   axisLine={false}
                 />
                 <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                <Bar dataKey="value" fill="#8884d8" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="value" fill="url(#barGradient)" radius={[4, 4, 0, 0]} />
               </BarChart>
             )}
           </ResponsiveContainer>

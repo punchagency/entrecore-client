@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { AnalyticsCard } from "@/components/analytics-card";
 import { MetricsChartCard } from "@/components/metrics-chart-card";
+import { ShareAnalyticsDialog } from "@/components/share-analytics-dialog";
 
 const mockGrossProfitData = [
   { name: "Mar", value: 15000000 },
@@ -23,6 +24,8 @@ const mockMRRData = [
 ];
 
 const Metrics = () => {
+  const [shareDialogOpen, setShareDialogOpen] = React.useState(false);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -30,8 +33,12 @@ const Metrics = () => {
           <p className="text-lg">Analytics and Metrics</p>
         </div>
 
-        <Button className="cursor-pointer font-medium">Share Analytics</Button>
+        <Button className="cursor-pointer font-medium" onClick={() => setShareDialogOpen(true)}>
+          Share Analytics
+        </Button>
       </div>
+
+      <ShareAnalyticsDialog open={shareDialogOpen} onOpenChange={setShareDialogOpen} />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <AnalyticsCard title="ACV" value={23370} percentageChange={2.7} />
