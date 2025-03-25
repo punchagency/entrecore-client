@@ -1,14 +1,19 @@
 "use client";
 import React from "react";
-import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const Metrics = () => {
-  const pathname = usePathname();
-
   return (
     <div>
-      <h1>Metrics works!</h1>
-      <p>Current pathname: {pathname}</p>
+      <div className="flex items-center justify-between px-8 py-4">
+        <div>
+          <p className="text-lg font-semibold">Analytics and Metrics</p>
+        </div>
+
+        <div>
+          <Button className="w-[200px]">Share Analytics</Button>
+        </div>
+      </div>
     </div>
   );
 };
