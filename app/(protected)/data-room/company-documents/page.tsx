@@ -34,11 +34,12 @@ interface Data {
 
 const CompanyDocuments = () => {
   const [editOpen, setEditOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<unknown>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   console.log(searchQuery);
-  const [data, setData] = useState<Data[]>([
+
+  const [data] = useState<Data[]>([
     {
       id: 1,
       name: "Composite File Name.doc",
@@ -89,11 +90,9 @@ const CompanyDocuments = () => {
     },
   ]);
 
-  const filteredData = data.filter(
-    (item) =>
-      item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) 
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().startsWith(searchQuery.toLowerCase())
   );
-
 
   const getFileIcon = (fileName: string) => {
     const extension = fileName?.split(".").pop()?.toLowerCase();
@@ -143,137 +142,139 @@ const CompanyDocuments = () => {
           </TableHeader>
 
           <TableBody className="text-[0.885vw]  font-medium gap-[0.521vw]">
-            {filteredData.length === 0 ? data.map((item) => (
-              <TableRow className="bg-white" key={item.id}>
-                <TableCell className="font-medium first:rounded-tl-[0.321vw] first:rounded-bl-[0.321vw]">
-                  <div className="flex items-center gap-2">
-                    <div className="rounded-[0.125vw] bg-[#EFF4FF] flex items-center justify-center p-[0.325vw]">
-                      <Image src={getFileIcon(item.name)} alt="pdf" width={20} height={20} />
-                    </div>
-                    {item.name}
-                  </div>
-                </TableCell>
+            {filteredData.length === 0
+              ? data.map((item) => (
+                  <TableRow className="bg-white" key={item.id}>
+                    <TableCell className="font-medium first:rounded-tl-[0.321vw] first:rounded-bl-[0.321vw]">
+                      <div className="flex items-center gap-2">
+                        <div className="rounded-[0.125vw] bg-[#EFF4FF] flex items-center justify-center p-[0.325vw]">
+                          <Image src={getFileIcon(item.name)} alt="pdf" width={20} height={20} />
+                        </div>
+                        {item.name}
+                      </div>
+                    </TableCell>
 
-                <TableCell>
-                  {" "}
-                  <Popover>
-                    <PopoverTrigger>{item.description}</PopoverTrigger>{" "}
-                    <PopoverContent className="w-[17.396vw] bg-[#192131] text-white relative before:content-[''] before:absolute before:-top-2 before:left-[50%] before:translate-x-[-50%] before:w-0 before:h-0 before:border-l-[8px] before:border-l-transparent before:border-r-[8px] before:border-r-transparent before:border-b-[8px] before:border-b-[#192131]">
-                      <p>{item.description}</p>
-                    </PopoverContent>
-                  </Popover>
-                </TableCell>
-                <TableCell className="last:rounded-tr-[0.321vw] last:rounded-br-[0.321vw]">
-                  <div className="flex items-center justify-between gap-2">
-                    {item.AddedOn}
-                    <DropdownMenu>
+                    <TableCell>
                       {" "}
-                      <DropdownMenuTrigger>
-                        <EllipsisVertical size={24} color="black" className="cursor-pointer" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="mr-12 font-bold ">
-                        <DropdownMenuItem
-                          onSelect={(event) => {
-                            event.preventDefault();
-                            setSelectedItem(item);
-                            setEditOpen(true);
-                          }}
-                        >
-                          Edit
-                        </DropdownMenuItem>
-                        <FileFormDialog
-                          open={editOpen}
-                          onOpenChange={setEditOpen}
-                          mode="edit"
-                          initialData={selectedItem}
-                        />
-                        <DropdownMenuItem>Download</DropdownMenuItem>
-                        <DropdownMenuItem
-                          onSelect={(event) => {
-                            event.preventDefault();
-                            setSelectedItem(item);
-                            setDeleteOpen(true);
-                          }}
-                        >
-                          Delete
-                        </DropdownMenuItem>
-                        <DeleteFileDialog
-                          deleteOpen={deleteOpen}
-                          setDeleteOpen={setDeleteOpen}
-                          selectedItem={selectedItem}
-                          getFileIcon={getFileIcon}
-                        />
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </TableCell>
-              </TableRow>
-            )): filteredData.map((item) => (
-              <TableRow className="bg-white" key={item.id}>
-                <TableCell className="font-medium first:rounded-tl-[0.321vw] first:rounded-bl-[0.321vw]">
-                  <div className="flex items-center gap-2">
-                    <div className="rounded-[0.125vw] bg-[#EFF4FF] flex items-center justify-center p-[0.325vw]">
-                      <Image src={getFileIcon(item.name)} alt="pdf" width={20} height={20} />
-                    </div>
-                    {item.name}
-                  </div>
-                </TableCell>
+                      <Popover>
+                        <PopoverTrigger>{item.description}</PopoverTrigger>{" "}
+                        <PopoverContent className="w-[17.396vw] bg-[#192131] text-white relative before:content-[''] before:absolute before:-top-2 before:left-[50%] before:translate-x-[-50%] before:w-0 before:h-0 before:border-l-[8px] before:border-l-transparent before:border-r-[8px] before:border-r-transparent before:border-b-[8px] before:border-b-[#192131]">
+                          <p>{item.description}</p>
+                        </PopoverContent>
+                      </Popover>
+                    </TableCell>
+                    <TableCell className="last:rounded-tr-[0.321vw] last:rounded-br-[0.321vw]">
+                      <div className="flex items-center justify-between gap-2">
+                        {item.AddedOn}
+                        <DropdownMenu>
+                          {" "}
+                          <DropdownMenuTrigger>
+                            <EllipsisVertical size={24} color="black" className="cursor-pointer" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="mr-12 font-bold ">
+                            <DropdownMenuItem
+                              onSelect={(event) => {
+                                event.preventDefault();
+                                setSelectedItem(item);
+                                setEditOpen(true);
+                              }}
+                            >
+                              Edit
+                            </DropdownMenuItem>
+                            <FileFormDialog
+                              open={editOpen}
+                              onOpenChange={setEditOpen}
+                              mode="edit"
+                              initialData={selectedItem}
+                            />
+                            <DropdownMenuItem>Download</DropdownMenuItem>
+                            <DropdownMenuItem
+                              onSelect={(event) => {
+                                event.preventDefault();
+                                setSelectedItem(item);
+                                setDeleteOpen(true);
+                              }}
+                            >
+                              Delete
+                            </DropdownMenuItem>
+                            <DeleteFileDialog
+                              deleteOpen={deleteOpen}
+                              setDeleteOpen={setDeleteOpen}
+                              selectedItem={selectedItem}
+                              getFileIcon={getFileIcon}
+                            />
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              : filteredData.map((item) => (
+                  <TableRow className="bg-white" key={item.id}>
+                    <TableCell className="font-medium first:rounded-tl-[0.321vw] first:rounded-bl-[0.321vw]">
+                      <div className="flex items-center gap-2">
+                        <div className="rounded-[0.125vw] bg-[#EFF4FF] flex items-center justify-center p-[0.325vw]">
+                          <Image src={getFileIcon(item.name)} alt="pdf" width={20} height={20} />
+                        </div>
+                        {item.name}
+                      </div>
+                    </TableCell>
 
-                <TableCell>
-                  {" "}
-                  <Popover>
-                    <PopoverTrigger>{item.description}</PopoverTrigger>{" "}
-                    <PopoverContent className="w-[17.396vw] bg-[#192131] text-white relative before:content-[''] before:absolute before:-top-2 before:left-[50%] before:translate-x-[-50%] before:w-0 before:h-0 before:border-l-[8px] before:border-l-transparent before:border-r-[8px] before:border-r-transparent before:border-b-[8px] before:border-b-[#192131]">
-                      <p>{item.description}</p>
-                    </PopoverContent>
-                  </Popover>
-                </TableCell>
-                <TableCell className="last:rounded-tr-[0.321vw] last:rounded-br-[0.321vw]">
-                  <div className="flex items-center justify-between gap-2">
-                    {item.AddedOn}
-                    <DropdownMenu>
+                    <TableCell>
                       {" "}
-                      <DropdownMenuTrigger>
-                        <EllipsisVertical size={24} color="black" className="cursor-pointer" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="mr-12 font-bold ">
-                        <DropdownMenuItem
-                          onSelect={(event) => {
-                            event.preventDefault();
-                            setSelectedItem(item);
-                            setEditOpen(true);
-                          }}
-                        >
-                          Edit
-                        </DropdownMenuItem>
-                        <FileFormDialog
-                          open={editOpen}
-                          onOpenChange={setEditOpen}
-                          mode="edit"
-                          initialData={selectedItem}
-                        />
-                        <DropdownMenuItem>Download</DropdownMenuItem>
-                        <DropdownMenuItem
-                          onSelect={(event) => {
-                            event.preventDefault();
-                            setSelectedItem(item);
-                            setDeleteOpen(true);
-                          }}
-                        >
-                          Delete
-                        </DropdownMenuItem>
-                        <DeleteFileDialog
-                          deleteOpen={deleteOpen}
-                          setDeleteOpen={setDeleteOpen}
-                          selectedItem={selectedItem}
-                          getFileIcon={getFileIcon}
-                        />
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                      <Popover>
+                        <PopoverTrigger>{item.description}</PopoverTrigger>{" "}
+                        <PopoverContent className="w-[17.396vw] bg-[#192131] text-white relative before:content-[''] before:absolute before:-top-2 before:left-[50%] before:translate-x-[-50%] before:w-0 before:h-0 before:border-l-[8px] before:border-l-transparent before:border-r-[8px] before:border-r-transparent before:border-b-[8px] before:border-b-[#192131]">
+                          <p>{item.description}</p>
+                        </PopoverContent>
+                      </Popover>
+                    </TableCell>
+                    <TableCell className="last:rounded-tr-[0.321vw] last:rounded-br-[0.321vw]">
+                      <div className="flex items-center justify-between gap-2">
+                        {item.AddedOn}
+                        <DropdownMenu>
+                          {" "}
+                          <DropdownMenuTrigger>
+                            <EllipsisVertical size={24} color="black" className="cursor-pointer" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="mr-12 font-bold ">
+                            <DropdownMenuItem
+                              onSelect={(event) => {
+                                event.preventDefault();
+                                setSelectedItem(item);
+                                setEditOpen(true);
+                              }}
+                            >
+                              Edit
+                            </DropdownMenuItem>
+                            <FileFormDialog
+                              open={editOpen}
+                              onOpenChange={setEditOpen}
+                              mode="edit"
+                              initialData={selectedItem}
+                            />
+                            <DropdownMenuItem>Download</DropdownMenuItem>
+                            <DropdownMenuItem
+                              onSelect={(event) => {
+                                event.preventDefault();
+                                setSelectedItem(item);
+                                setDeleteOpen(true);
+                              }}
+                            >
+                              Delete
+                            </DropdownMenuItem>
+                            <DeleteFileDialog
+                              deleteOpen={deleteOpen}
+                              setDeleteOpen={setDeleteOpen}
+                              selectedItem={selectedItem}
+                              getFileIcon={getFileIcon}
+                            />
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
         <hr className="w-full border-gray-200 my-[1.25vw]" />
