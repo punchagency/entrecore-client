@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 interface User {
   id: string;
   name: string;
@@ -75,24 +76,35 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
               {filteredUsers.map((user) => (
                 <div
                   key={user.id}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 cursor-pointer"
+                  className="flex items-center justify-between p-3 rounded-lg bg-white hover:bg-[#EFF4FF]/70 cursor-pointer transition-colors"
                   onClick={() => handleUserToggle(user.id)}
                 >
                   <div className="flex items-center gap-3">
-                    <img
+                    <Image
                       src={getAvatarUrl(user.name)}
                       alt={user.name}
-                      className="w-10 h-10 rounded-full bg-gray-50"
+                      className="rounded-full bg-gray-50"
+                      width={40}
+                      height={40}
+                      unoptimized
+                      priority
                     />
                     <span>{user.name}</span>
                   </div>
                   <div
-                    className={`w-6 h-6 rounded-full border-2 ${
+                    className={`w-6 h-6 rounded-full relative transition-all ${
                       selectedUsers.includes(user.id)
-                        ? "bg-blue-500 border-blue-500"
-                        : "border-gray-300"
+                        ? "border-[#3064F6]"
+                        : "border-2 border-[#2A2A2A] hover:border-[#3064F6]"
                     }`}
-                  />
+                  >
+                    {selectedUsers.includes(user.id) && (
+                      <>
+                        <div className="absolute inset-0 rounded-full border-2 border-[#3064F6]" />
+                        <div className="absolute inset-[4px] rounded-full bg-[#3064F6]" />
+                      </>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -140,23 +152,26 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[500px] bg-[#EFF4FF] p-0">
+        <DialogHeader className="border-b pb-4 px-6 pt-6">
           <div className="flex items-center">
             {step > 1 && (
               <Button variant="ghost" size="icon" className="mr-2" onClick={handleBack}>
                 <ChevronLeft className="h-4 w-4" />
               </Button>
             )}
-            <DialogTitle>
+            <DialogTitle className="text-lg font-semibold">
               {step === 1 ? "Share Analytics" : step === 2 ? "Select Metrics" : "Confirm Sharing"}
             </DialogTitle>
           </div>
         </DialogHeader>
-        <div className="py-4">{renderStepContent()}</div>
-        <div className="flex justify-end">
-          <Button onClick={() => (step === 3 ? onOpenChange(true) : handleNext())}>
-            {step === 3 ? "Share" : "Continue"}
+        <div className="p-6">{renderStepContent()}</div>
+        <div className="px-6 pb-6">
+          <Button
+            onClick={() => (step === 3 ? onOpenChange(true) : handleNext())}
+            className="w-full h-[40px] cursor-pointer font-medium"
+          >
+            {step === 3 ? "Share" : "Next"}
           </Button>
         </div>
       </DialogContent>
