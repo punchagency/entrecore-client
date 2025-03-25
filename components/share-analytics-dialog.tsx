@@ -6,6 +6,7 @@ import { ChevronLeft } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 interface User {
   id: string;
@@ -56,7 +57,6 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
   };
 
   const getAvatarUrl = (name: string) => {
-    // Remove spaces and convert to lowercase for consistent seed generation
     const seed = name.toLowerCase().replace(/\s+/g, "");
     return `https://api.dicebear.com/7.x/micah/svg?seed=${seed}`;
   };
@@ -66,11 +66,16 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
       case 1:
         return (
           <div className="space-y-4">
+            <p className="text-sm">
+              Select the users with whom you want to share your analytics data with.
+            </p>
+            <Label className="text-sm text-[#181818] font-medium">Search users</Label>
             <Input
               placeholder="Search users by name or email"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="mb-4"
+              size="lg"
             />
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
               {filteredUsers.map((user) => (
@@ -115,22 +120,22 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
           <div className="space-y-4">
             <h3 className="font-medium">Select Analytics to Share</h3>
             <div className="space-y-2">
-              <label className="flex items-center space-x-2">
+              <Label className="flex items-center space-x-2">
                 <input type="checkbox" className="rounded" />
                 <span>Gross Profit</span>
-              </label>
-              <label className="flex items-center space-x-2">
+              </Label>
+              <Label className="flex items-center space-x-2">
                 <input type="checkbox" className="rounded" />
                 <span>MRR/ARR</span>
-              </label>
-              <label className="flex items-center space-x-2">
+              </Label>
+              <Label className="flex items-center space-x-2">
                 <input type="checkbox" className="rounded" />
                 <span>ACV</span>
-              </label>
-              <label className="flex items-center space-x-2">
+              </Label>
+              <Label className="flex items-center space-x-2">
                 <input type="checkbox" className="rounded" />
                 <span>CAC</span>
-              </label>
+              </Label>
             </div>
           </div>
         );
@@ -160,7 +165,7 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                 <ChevronLeft className="h-4 w-4" />
               </Button>
             )}
-            <DialogTitle className="text-lg font-semibold">
+            <DialogTitle className="text-[22px] font-semibold">
               {step === 1 ? "Share Analytics" : step === 2 ? "Select Metrics" : "Confirm Sharing"}
             </DialogTitle>
           </div>
