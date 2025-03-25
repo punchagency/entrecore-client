@@ -30,9 +30,7 @@ const Metrics = () => {
           <p className="text-lg">Analytics and Metrics</p>
         </div>
 
-        <div>
-          <Button className="cursor-pointer font-medium">Share Analytics</Button>
-        </div>
+        <Button className="cursor-pointer font-medium">Share Analytics</Button>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

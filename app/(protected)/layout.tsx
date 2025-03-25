@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <AppSidebar />
       <main className="w-full bg-[#F0F4FF] p-3">
         <PageHeader />
-        {children}
+        <div className="w-full mt-2">{children}</div>
       </main>
     </SidebarProvider>
   );
