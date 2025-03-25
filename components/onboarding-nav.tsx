@@ -47,7 +47,7 @@ export function OnboardingNav() {
             </Link>
           ))}
         </div>
-        <Link href="/dashboard" className="">
+        <Link href="/metrics" className="">
           <Button variant="outline" className="rounded-lg w-20 cursor-pointer">
             Skip
           </Button>
