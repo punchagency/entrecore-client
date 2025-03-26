@@ -7,7 +7,6 @@ import { ChevronLeft, Shield, Eye, Edit2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -15,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 interface User {
   id: string;
   name: string;
@@ -243,10 +242,14 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                           className="flex items-center justify-between bg-white rounded-lg px-3 py-2 w-full"
                         >
                           <div className="flex items-center gap-2">
-                            <img
+                            <Image
                               src={getAvatarUrl(user.name)}
                               alt={user.name}
                               className="w-8 h-8 rounded-full bg-gray-50"
+                              width={32}
+                              height={32}
+                              unoptimized
+                              priority
                             />
                             <span className="text-sm font-medium">{user.name}</span>
                           </div>
@@ -262,14 +265,14 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                             <SelectContent>
                               <SelectItem value="view" className="text-sm">
                                 <div className="flex items-center gap-2">
-                                  <Eye className="w-4 h-4" />
-                                  <span>View</span>
+                                  <Eye className="w-3 h-3" />
+                                  <span className="text-[12px]">View</span>
                                 </div>
                               </SelectItem>
                               <SelectItem value="edit" className="text-sm">
                                 <div className="flex items-center gap-2">
-                                  <Edit2 className="w-4 h-4" />
-                                  <span>Edit</span>
+                                  <Edit2 className="w-3 h-3" />
+                                  <span className="text-[12px]">Edit</span>
                                 </div>
                               </SelectItem>
                             </SelectContent>
@@ -311,7 +314,7 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                       </div>
                       <div>
                         <h4 className="text-sm font-medium">Default Access Level</h4>
-                        <p className="text-sm text-gray-600">Applied to new users</p>
+                        <p className="text-[12px] text-gray-600">Applied to new users</p>
                       </div>
                     </div>
                     <Select
@@ -325,13 +328,13 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                         <SelectItem value="view" className="text-sm">
                           <div className="flex items-center gap-2">
                             <Eye className="w-4 h-4" />
-                            <span>View</span>
+                            <span className="text-[12px]">View</span>
                           </div>
                         </SelectItem>
                         <SelectItem value="edit" className="text-sm">
                           <div className="flex items-center gap-2">
-                            <Edit2 className="w-4 h-4" />
-                            <span>Edit</span>
+                            <Edit2 className="w-3 h-3" />
+                            <span className="text-[12px]">Edit</span>
                           </div>
                         </SelectItem>
                       </SelectContent>
