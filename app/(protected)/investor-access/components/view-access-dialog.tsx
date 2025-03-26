@@ -34,17 +34,17 @@ export function ViewAccessDialog({
   onUpdateAccess,
   isEditing = false,
 }: ViewAccessDialogProps) {
-  const [selectedCharts, setSelectedCharts] = React.useState<string[]>([]);
+  const allChartIds = React.useMemo(() => charts.map((chart) => chart.id), []);
+  const [selectedCharts, setSelectedCharts] = React.useState<string[]>(allChartIds);
+  const areAllSelected = selectedCharts.length === charts.length;
 
   React.useEffect(() => {
-    if (investor?.selectedCharts) {
-      setSelectedCharts(investor.selectedCharts);
+    if (isOpen) {
+      setSelectedCharts(investor?.selectedCharts || allChartIds);
     }
-  }, [investor]);
+  }, [isOpen, investor, allChartIds]);
 
   const handleChartClick = (chartId: string) => {
-    if (!isEditing) return;
-
     setSelectedCharts((prev) => {
       if (prev.includes(chartId)) {
         return prev.filter((id) => id !== chartId);
@@ -53,8 +53,12 @@ export function ViewAccessDialog({
     });
   };
 
-  const handleDeselectAll = () => {
-    setSelectedCharts([]);
+  const handleToggleAll = () => {
+    if (areAllSelected) {
+      setSelectedCharts([]);
+    } else {
+      setSelectedCharts(allChartIds);
+    }
   };
 
   const handleUpdateAccess = () => {
@@ -75,16 +79,16 @@ export function ViewAccessDialog({
           </div>
           <p className="text-sm text-gray-600 mb-4">
             {isEditing
-              ? "Select which charts and analytics you want the investor to be able to edit."
-              : "The list of charts and analytics which is shared with the investor."}
+              ? `Select which charts and analytics ${investor?.name} should have access to.`
+              : `Charts and analytics that ${investor?.name} currently has access to.`}
           </p>
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium">Select Chart</span>
             <button
-              onClick={handleDeselectAll}
+              onClick={handleToggleAll}
               className="text-sm text-[#3064F6] hover:text-[#3064F6]/90"
             >
-              Deselect All
+              {areAllSelected ? "Deselect All" : "Select All"}
             </button>
           </div>
         </div>
@@ -94,9 +98,7 @@ export function ViewAccessDialog({
               {charts.map((chart) => (
                 <div
                   key={chart.id}
-                  className={`flex items-center justify-between p-3 rounded-lg bg-[#F8F9FC] hover:bg-[#F8F9FC]/80 ${
-                    isEditing ? "cursor-pointer" : ""
-                  } transition-all duration-200`}
+                  className="flex items-center justify-between p-3 rounded-lg bg-[#F8F9FC] hover:bg-[#F8F9FC]/80 cursor-pointer transition-all duration-200"
                   onClick={() => handleChartClick(chart.id)}
                 >
                   <div className="flex items-center gap-3">
