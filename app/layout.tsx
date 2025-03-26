@@ -1,8 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Toaster } from "@/components/ui/sonner";
 import { Geist, Geist_Mono } from "next/font/google";
+import { CircleCheck, CircleX, Info } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,9 +48,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${eudoxusSans.variable} ${geistSans.variable} ${geistMono.variable}   antialiased`}
+        className={`${eudoxusSans.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster />
+        <Toaster
+          className={cn(eudoxusSans.className, "font-normal")}
+          icons={{
+            info: <Info className="text-[#3064F6]" strokeWidth={1.2} />,
+            error: <CircleX className="text-red-400" strokeWidth={1.2} />,
+            success: <CircleCheck className="text-[#3064F6]" strokeWidth={1.2} />,
+          }}
+        />
         {children}
       </body>
     </html>

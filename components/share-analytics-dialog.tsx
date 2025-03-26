@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -15,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Shield, Eye, Edit2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 interface User {
   id: string;
   name: string;
@@ -97,6 +99,11 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
     if (step > 1) {
       setStep((prev) => prev - 1);
     }
+  };
+
+  const handleSubmit = () => {
+    onOpenChange(false);
+    toast.success("Analytics shared successfully");
   };
 
   const getAvatarUrl = (name: string) => {
@@ -368,7 +375,7 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
         <div className="p-6">{renderStepContent()}</div>
         <div className="px-6 pb-6">
           <Button
-            onClick={() => (step === 3 ? onOpenChange(true) : handleNext())}
+            onClick={() => (step === 3 ? handleSubmit() : handleNext())}
             className="w-full h-[40px] cursor-pointer font-medium"
           >
             {step === 3 ? "Share" : "Next"}
