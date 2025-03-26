@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ChevronLeft, Shield, Eye, Edit2 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -14,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, Shield, Eye, Edit2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 interface User {
   id: string;
