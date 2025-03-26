@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Eye, Pencil, Trash2 } from "lucide-react";
-
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -12,16 +11,23 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { ViewAccessDialog } from "./components/view-access-dialog";
 
 interface Investor {
   id: string;
   name: string;
   accessLevel: "view" | "edit";
+  selectedCharts?: string[];
 }
 
 const mockInvestors: Investor[] = [
-  { id: "1", name: "Daniel Jones", accessLevel: "view" },
-  { id: "2", name: "Sam Josep", accessLevel: "edit" },
+  { id: "1", name: "Daniel Jones", accessLevel: "view", selectedCharts: ["acv", "ltv-cac"] },
+  {
+    id: "2",
+    name: "Sam Josep",
+    accessLevel: "edit",
+    selectedCharts: ["acv", "cac-payback", "churn"],
+  },
   { id: "3", name: "Kim Doson", accessLevel: "view" },
   { id: "4", name: "Jennifer Lorenz", accessLevel: "edit" },
   { id: "5", name: "Kate Watson", accessLevel: "view" },
@@ -62,6 +68,9 @@ const ITEMS_PER_PAGE = 10;
 const InvestorAccess = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [selectedInvestor, setSelectedInvestor] = React.useState<Investor | null>(null);
+  const [isViewDialogOpen, setIsViewDialogOpen] = React.useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
 
   const filteredInvestors = mockInvestors.filter((investor) =>
     investor.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -77,6 +86,11 @@ const InvestorAccess = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleUpdateAccess = (charts: string[]) => {
+    // In a real application, this would make an API call to update the investor's access
+    console.log("Updating access for investor:", selectedInvestor?.name, "charts:", charts);
   };
 
   return (
@@ -104,12 +118,20 @@ const InvestorAccess = () => {
                 <button
                   className="p-2 hover:bg-[#3064F6]/10 rounded-lg transition-colors group cursor-pointer"
                   title="View access"
+                  onClick={() => {
+                    setSelectedInvestor(investor);
+                    setIsViewDialogOpen(true);
+                  }}
                 >
                   <Eye className="w-4 h-4 text-gray-600 group-hover:text-[#3064F6]" />
                 </button>
                 <button
                   className="p-2 hover:bg-[#3064F6]/10 rounded-lg transition-colors group cursor-pointer"
                   title="Edit access"
+                  onClick={() => {
+                    setSelectedInvestor(investor);
+                    setIsEditDialogOpen(true);
+                  }}
                 >
                   <Pencil className="w-4 h-4 text-gray-600 group-hover:text-[#3064F6]" />
                 </button>
@@ -179,6 +201,20 @@ const InvestorAccess = () => {
           </Pagination>
         </div>
       )}
+
+      <ViewAccessDialog
+        isOpen={isViewDialogOpen}
+        onClose={() => setIsViewDialogOpen(false)}
+        investor={selectedInvestor}
+      />
+
+      <ViewAccessDialog
+        isOpen={isEditDialogOpen}
+        onClose={() => setIsEditDialogOpen(false)}
+        investor={selectedInvestor}
+        onUpdateAccess={handleUpdateAccess}
+        isEditing
+      />
     </div>
   );
 };
