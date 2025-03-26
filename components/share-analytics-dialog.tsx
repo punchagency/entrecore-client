@@ -90,7 +90,7 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
   };
 
   const handleNext = () => {
-    if (step < 3) {
+    if (step < 3 && isStepValid()) {
       setStep((prev) => prev + 1);
     }
   };
@@ -101,9 +101,26 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
     }
   };
 
+  const isStepValid = () => {
+    switch (step) {
+      case 1:
+        return selectedUsers.length > 0;
+      case 2:
+        return selectedMetrics.length > 0;
+      case 3:
+        // For step 3, we just need to ensure we have users and metrics selected
+        // The default access level is already set
+        return selectedUsers.length > 0 && selectedMetrics.length > 0;
+      default:
+        return false;
+    }
+  };
+
   const handleSubmit = () => {
-    onOpenChange(false);
-    toast.success("Analytics shared successfully");
+    if (isStepValid()) {
+      onOpenChange(false);
+      toast.success("Analytics shared successfully");
+    }
   };
 
   const getAvatarUrl = (name: string) => {
@@ -146,14 +163,10 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                   onClick={() => handleUserToggle(user.id)}
                 >
                   <div className="flex items-center gap-3">
-                    <Image
+                    <img
                       src={getAvatarUrl(user.name)}
                       alt={user.name}
-                      className="rounded-full bg-gray-50"
-                      width={40}
-                      height={40}
-                      unoptimized
-                      priority
+                      className="w-10 h-10 rounded-full bg-gray-50"
                     />
                     <span>{user.name}</span>
                   </div>
@@ -174,6 +187,12 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                 </div>
               ))}
             </div>
+            {selectedUsers.length === 0 && (
+              <div className="flex items-center gap-1.5 mt-2">
+                <div className="w-1 h-1 rounded-full bg-[#FF4D4D]" />
+                <p className="text-[12px] text-[#FF4D4D]">Select at least one user to continue</p>
+              </div>
+            )}
           </div>
         );
       case 2:
@@ -229,6 +248,12 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
                 </div>
               ))}
             </div>
+            {selectedMetrics.length === 0 && (
+              <div className="flex items-center gap-1.5 mt-2">
+                <div className="w-1 h-1 rounded-full bg-[#FF4D4D]" />
+                <p className="text-[12px] text-[#FF4D4D]">Select at least one metric to continue</p>
+              </div>
+            )}
           </div>
         );
       case 3:
@@ -377,6 +402,7 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
           <Button
             onClick={() => (step === 3 ? handleSubmit() : handleNext())}
             className="w-full h-[40px] cursor-pointer font-medium"
+            disabled={!isStepValid()}
           >
             {step === 3 ? "Share" : "Next"}
           </Button>
