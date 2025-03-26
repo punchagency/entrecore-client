@@ -124,7 +124,7 @@ export function ViewAccessDialog({
         <div className="p-6 pt-4">
           <Button
             onClick={handleUpdateAccess}
-            className="w-full bg-[#3064F6] hover:bg-[#3064F6]/90 text-white"
+            className="w-full bg-[#3064F6] hover:bg-[#3064F6]/90 text-white cursor-pointer"
           >
             Update Access
           </Button>

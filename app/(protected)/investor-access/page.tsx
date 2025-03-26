@@ -12,6 +12,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { ViewAccessDialog } from "./components/view-access-dialog";
+import { RemoveAccessDialog } from "./components/remove-access-dialog";
 
 interface Investor {
   id: string;
@@ -71,6 +72,7 @@ const InvestorAccess = () => {
   const [selectedInvestor, setSelectedInvestor] = React.useState<Investor | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = React.useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
+  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = React.useState(false);
 
   const filteredInvestors = mockInvestors.filter((investor) =>
     investor.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -91,6 +93,11 @@ const InvestorAccess = () => {
   const handleUpdateAccess = (charts: string[]) => {
     // In a real application, this would make an API call to update the investor's access
     console.log("Updating access for investor:", selectedInvestor?.name, "charts:", charts);
+  };
+
+  const handleRemoveAccess = () => {
+    // In a real application, this would make an API call to remove the investor's access
+    console.log("Removing access for investor:", selectedInvestor?.name);
   };
 
   return (
@@ -138,6 +145,10 @@ const InvestorAccess = () => {
                 <button
                   className="p-2 hover:bg-red-50 rounded-lg transition-colors group cursor-pointer"
                   title="Remove access"
+                  onClick={() => {
+                    setSelectedInvestor(investor);
+                    setIsRemoveDialogOpen(true);
+                  }}
                 >
                   <Trash2 className="w-4 h-4 text-gray-600 group-hover:text-red-500" />
                 </button>
@@ -214,6 +225,13 @@ const InvestorAccess = () => {
         investor={selectedInvestor}
         onUpdateAccess={handleUpdateAccess}
         isEditing
+      />
+
+      <RemoveAccessDialog
+        isOpen={isRemoveDialogOpen}
+        onClose={() => setIsRemoveDialogOpen(false)}
+        investor={selectedInvestor}
+        onRemoveAccess={handleRemoveAccess}
       />
     </div>
   );
