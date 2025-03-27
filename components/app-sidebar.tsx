@@ -18,8 +18,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
   const pathname = usePathname();
-
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, state } = useSidebar();
   const isActive = (url: string) => pathname.includes(url);
 
   const sidebarTopItems = [
@@ -150,31 +149,12 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center justify-between p-2">
-          <div className="transition-all duration-200 group-data-[state=collapsed]:scale-0 group-data-[state=collapsed]:opacity-0 group-data-[state=collapsed]:w-0">
-            <Image src="/svgs/logo.svg" alt="Logo" width={120.84} height={20} />
-          </div>
-          <div
-            className="bg-[#EFF4FF] rounded-full w-6 h-6 flex items-center justify-center cursor-pointer transition-transform duration-200 group-data-[state=collapsed]:rotate-180 shrink-0 group-data-[state=collapsed]:mx-auto"
-            data-sidebar="trigger"
-            data-slot="sidebar-trigger"
-            onClick={toggleSidebar}
-          >
-            <svg
-              width="6"
-              height="12"
-              viewBox="0 0 6 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M0.666892 6.94297C0.146192 6.42227 0.146193 5.57805 0.666892 5.05735L4.86215 0.862092C5.1225 0.601743 5.54461 0.601743 5.80496 0.862092C6.06531 1.12244 6.06531 1.54455 5.80496 1.8049L1.6097 6.00016L5.80496 10.1954C6.06531 10.4558 6.06531 10.8779 5.80496 11.1382C5.54461 11.3986 5.1225 11.3986 4.86215 11.1382L0.666892 6.94297Z"
-                fill="#181818"
-              />
-            </svg>
-
-            <span className="sr-only">Toggle Sidebar</span>
+          <div className=" w-[120px]">
+            {state === "expanded" ? (
+              <Image src="/svgs/logo.svg" alt="Logo" width={120.84} height={20} priority />
+            ) : (
+              <Image src="/svgs/logo-small.svg" alt="Logo" width={100} height={100} priority />
+            )}
           </div>
         </div>
       </SidebarHeader>
