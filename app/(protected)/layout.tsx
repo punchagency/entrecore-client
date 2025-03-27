@@ -6,8 +6,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full">
-        <PageHeader />
+      <main className="w-full bg-[#EFF4FF]">
+        {/* <PageHeader /> */}
         {children}
       </main>
     </SidebarProvider>

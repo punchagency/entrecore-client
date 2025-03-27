@@ -33,7 +33,7 @@ export function SettingsNav() {
               href={item.href}
               className={cn(
                 "py-[1.22vw] mr-[1.302vw] transition-colors text-[0.833vw] font-bold ",
-                pathname === item.href
+                pathname === item.href || (item.href !== "/settings" && pathname.startsWith(item.href))
                   ? "text-primary border-b-2 border-[#3064F6]"
                   : "text-soft-black    "
               )}

@@ -1,4 +1,4 @@
-import Logo from "@/public/Svgs/logo";
+import Logo from "@/public/svgs/logo";
 import { Button } from "@/components/ui/button";
 
 interface AuthHeaderProps {

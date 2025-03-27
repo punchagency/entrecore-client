@@ -19,7 +19,7 @@ const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
         setTitle("Companies");
         setBtnText("New Company Profile");
         break;
-      case "/settings/my-profile": // 3. Fix casing: 'my-Profile' -> 'my-profile'
+      case "/settings/my-profile":
         setTitle("My Profile");
         setBtnText("Save Changes");
         break;
