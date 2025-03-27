@@ -26,13 +26,16 @@ const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
       case "/settings/account-settings":
         setTitle("Account Settings");
         break;
+      default:
+        setTitle("Company Profile");
+        break;
     }
   }, [pathname]);
 
   return (
     <div>
-      <SettingsNav />
-      <div className="flex justify-between items-center p-[1.563vw] border-b border-[#D9DBDD] bg-[#EFF4FF]">
+      {pathname !== "/settings/company-profile" && <SettingsNav />}
+      {pathname !== "/settings/company-profile" && <div className="flex justify-between items-center p-[1.563vw] border-b border-[#D9DBDD] bg-[#EFF4FF]">
         <h1 className="text-[1.146vw] font-bold">{title}</h1>
         {pathname === "/settings" && (
           <Dialog open={open} onOpenChange={setOpen}>
@@ -52,7 +55,7 @@ const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
             {btnText}
           </Button>
         )}
-      </div>
+      </div>}
       {children}
     </div>
   );
