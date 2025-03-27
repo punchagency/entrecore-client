@@ -20,15 +20,15 @@ const geistMono = Geist_Mono({
 const eudoxusSans = localFont({
   src: [
     {
-      path: "./fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Regular-BF659b6cb1d4714.ttf",
+      path: "../public/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Regular-BF659b6cb1d4714.ttf",
       weight: "400",
     },
     {
-      path: "./fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Medium-BF659b6cb1c14cb.ttf",
+      path: "../public/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Medium-BF659b6cb1c14cb.ttf",
       weight: "500",
     },
     {
-      path: "./fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Bold-BF659b6cb1408e5.ttf",
+      path: "../public/fonts/eudoxus-sans-font-family-1742274690-0/EudoxusSans-Bold-BF659b6cb1408e5.ttf",
       weight: "700",
     },
   ],
