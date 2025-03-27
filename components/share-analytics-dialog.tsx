@@ -104,9 +104,9 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
   const isStepValid = () => {
     switch (step) {
       case 1:
-        return selectedUsers.length > 0;
-      case 2:
         return selectedMetrics.length > 0;
+      case 2:
+        return selectedUsers.length > 0;
       case 3:
         // For step 3, we just need to ensure we have users and metrics selected
         // The default access level is already set
@@ -142,60 +142,6 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
   const renderStepContent = () => {
     switch (step) {
       case 1:
-        return (
-          <div className="space-y-4 min-h-[500px]">
-            <p className="text-sm">
-              Select the users with whom you want to share your analytics data with.
-            </p>
-            <Label className="text-sm text-[#181818] font-medium">Search users</Label>
-            <Input
-              placeholder="Search users by name or email"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="mb-4"
-              size="lg"
-            />
-            <div className="space-y-2 max-h-[350px] overflow-y-auto">
-              {filteredUsers.map((user) => (
-                <div
-                  key={user.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-white hover:bg-[#EFF4FF]/70 cursor-pointer transition-colors"
-                  onClick={() => handleUserToggle(user.id)}
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={getAvatarUrl(user.name)}
-                      alt={user.name}
-                      className="w-10 h-10 rounded-full bg-gray-50"
-                    />
-                    <span>{user.name}</span>
-                  </div>
-                  <div
-                    className={`w-6 h-6 rounded-full relative transition-all ${
-                      selectedUsers.includes(user.id)
-                        ? "border-[#3064F6]"
-                        : "border-2 border-[#2A2A2A] hover:border-[#3064F6]"
-                    }`}
-                  >
-                    {selectedUsers.includes(user.id) && (
-                      <>
-                        <div className="absolute inset-0 rounded-full border-2 border-[#3064F6]" />
-                        <div className="absolute inset-[4px] rounded-full bg-[#3064F6]" />
-                      </>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            {selectedUsers.length === 0 && (
-              <div className="flex items-center gap-1.5 mt-2">
-                <div className="w-1 h-1 rounded-full bg-[#FF4D4D]" />
-                <p className="text-[12px] text-[#FF4D4D]">Select at least one user to continue</p>
-              </div>
-            )}
-          </div>
-        );
-      case 2:
         return (
           <div className="flex flex-col h-[500px]">
             <div className="mb-6">
@@ -252,6 +198,60 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
               <div className="flex items-center gap-1.5 mt-2">
                 <div className="w-1 h-1 rounded-full bg-[#FF4D4D]" />
                 <p className="text-[12px] text-[#FF4D4D]">Select at least one metric to continue</p>
+              </div>
+            )}
+          </div>
+        );
+      case 2:
+        return (
+          <div className="space-y-4 min-h-[500px]">
+            <p className="text-sm">
+              Select the users with whom you want to share your analytics data with.
+            </p>
+            <Label className="text-sm text-[#181818] font-medium">Search users</Label>
+            <Input
+              placeholder="Search users by name or email"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mb-4"
+              size="lg"
+            />
+            <div className="space-y-2 max-h-[350px] overflow-y-auto">
+              {filteredUsers.map((user) => (
+                <div
+                  key={user.id}
+                  className="flex items-center justify-between p-3 rounded-lg bg-white hover:bg-[#EFF4FF]/70 cursor-pointer transition-colors"
+                  onClick={() => handleUserToggle(user.id)}
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={getAvatarUrl(user.name)}
+                      alt={user.name}
+                      className="w-10 h-10 rounded-full bg-gray-50"
+                    />
+                    <span>{user.name}</span>
+                  </div>
+                  <div
+                    className={`w-6 h-6 rounded-full relative transition-all ${
+                      selectedUsers.includes(user.id)
+                        ? "border-[#3064F6]"
+                        : "border-2 border-[#2A2A2A] hover:border-[#3064F6]"
+                    }`}
+                  >
+                    {selectedUsers.includes(user.id) && (
+                      <>
+                        <div className="absolute inset-0 rounded-full border-2 border-[#3064F6]" />
+                        <div className="absolute inset-[4px] rounded-full bg-[#3064F6]" />
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {selectedUsers.length === 0 && (
+              <div className="flex items-center gap-1.5 mt-2">
+                <div className="w-1 h-1 rounded-full bg-[#FF4D4D]" />
+                <p className="text-[12px] text-[#FF4D4D]">Select at least one user to continue</p>
               </div>
             )}
           </div>
@@ -393,7 +393,7 @@ export function ShareAnalyticsDialog({ open, onOpenChange }: ShareAnalyticsDialo
               </Button>
             )}
             <DialogTitle className="text-[22px] font-semibold">
-              {step === 1 ? "Share Analytics" : step === 2 ? "Select Metrics" : "Confirm Sharing"}
+              {step === 1 ? "Select Metrics" : step === 2 ? "Share Analytics" : "Confirm Sharing"}
             </DialogTitle>
           </div>
         </DialogHeader>
