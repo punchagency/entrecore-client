@@ -1,23 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Eye, EyeOff } from "lucide-react";
-import { FaCircleCheck } from "react-icons/fa6";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { FaCircleCheck } from "react-icons/fa6";
 import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import AuthHeader from "@/components/auth-header";
-import { FloatingLabelInput } from "@/components/floating-label-input";
-import { SubmitButton } from "@/components/auth-buttons";
-import AuthFooter from "@/components/auth-footer";
 import { Axios } from "@/app/config/axios";
+import { Button } from "@/components/ui/button";
+import AuthHeader from "@/components/auth-header";
+import AuthFooter from "@/components/auth-footer";
+import { SubmitButton } from "@/components/auth-buttons";
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const formSchema = z
   .object({

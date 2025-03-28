@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {  Check,} from "lucide-react";
+import { Check } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import AuthHeader from "@/components/auth-header";
 import { FloatingLabelInput } from "@/components/floating-label-input";
@@ -28,15 +28,16 @@ export default function ForgotPasswordPage() {
     console.log(values);
   }
 
-
   return (
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
       <AuthHeader buttonText="Login" onButtonClick={() => router.push("/auth/login")} />
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-[20vw]">
+        <div className="w-full max-w-[25vw]">
           <div className="flex flex-col gap-[0.521vw] mb-6">
             <h1 className="text-primary font-medium text-[1.667vw]">Forgot Password</h1>
-            <p className="text-soft-black text-[1.042vw]">Enter your email address for a link to update your password.</p>
+            <p className="text-soft-black text-sm">
+              Enter your email address for a link to update your password.
+            </p>
           </div>
 
           <Form {...form}>
@@ -64,11 +65,8 @@ export default function ForgotPasswordPage() {
               <SubmitButton text="Send Reset Info" />
             </form>
           </Form>
-
-          
         </div>
       </div>
-          
     </div>
   );
 }
