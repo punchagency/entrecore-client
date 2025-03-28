@@ -59,7 +59,9 @@ export default function SignupPage() {
       const response = await Axios.post("/signup", data);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Store the email in localStorage
+      localStorage.setItem("signup_email", data.email);
       toast.success("Account created successfully!", {
         position: "top-center",
       });

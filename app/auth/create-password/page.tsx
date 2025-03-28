@@ -1,18 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Eye, EyeOff } from "lucide-react";
 import { FaCircleCheck } from "react-icons/fa6";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import AuthHeader from "@/components/auth-header";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 import { SubmitButton } from "@/components/auth-buttons";
 import AuthFooter from "@/components/auth-footer";
+import { Axios } from "@/app/config/axios";
 
 const formSchema = z
   .object({
@@ -32,8 +37,13 @@ const formSchema = z
     path: ["confirmPassword"],
   });
 
+interface SetPasswordResponse {
+  message: string;
+}
+
 export default function CreatePasswordPage() {
   const router = useRouter();
+  const [email, setEmail] = useState<string | null>(null);
   const [passwordVisible, setPasswordVisible] = useState({
     password: false,
     confirmPassword: false,
@@ -44,6 +54,15 @@ export default function CreatePasswordPage() {
     hasNumberOrSpecial: false,
     hasMinLength: false,
   });
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("signup_email");
+    if (!storedEmail) {
+      router.push("/auth/signup");
+    } else {
+      setEmail(storedEmail);
+    }
+  }, [router]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,16 +81,45 @@ export default function CreatePasswordPage() {
     });
   };
 
+  const { mutate: setPassword, isPending } = useMutation({
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      const response = await Axios.post<SetPasswordResponse>("/signup/set-password", {
+        email,
+        password: data.password,
+        confirm_password: data.confirmPassword,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("Password set successfully!", {
+        position: "top-center",
+      });
+      // Clear the stored email
+      localStorage.removeItem("signup_email");
+      setTimeout(() => {
+        router.push("/onboarding");
+      }, 1500);
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data?.message || "Failed to set password. Please try again.", {
+        position: "top-center",
+      });
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    router.push("/onboarding");
-    console.log(values);
+    setPassword(values);
+  }
+
+  if (!email) {
+    return null;
   }
 
   return (
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
       <AuthHeader buttonText="Login" onButtonClick={() => router.push("/auth/login")} />
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-[20vw]">
+        <div className="w-full max-w-[25vw]">
           <div className="flex flex-col gap-[0.521vw] mb-10">
             <h1 className="text-primary font-medium text-[1.667vw]">Password</h1>
             <p className="text-soft-black text-[1.042vw]">Create your password</p>
@@ -205,7 +253,11 @@ export default function CreatePasswordPage() {
                 </ul>
               </div>
 
-              <SubmitButton text="Next" />
+              <SubmitButton
+                text={isPending ? "Setting Password..." : "Next"}
+                disabled={!form.formState.isValid || isPending}
+                isLoading={isPending}
+              />
             </form>
           </Form>
         </div>
