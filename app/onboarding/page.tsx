@@ -10,9 +10,14 @@ import {
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { BottomNav } from "@/components/bottom-nav";
+import { useEffect } from "react";
 
 export default function OnboardingPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    document.title = "Personal Information | EntreCore";
+  }, []);
 
   const handleSaveAndContinue = () => {
     router.push("/onboarding/company");

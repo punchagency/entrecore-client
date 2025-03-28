@@ -1,14 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {  Check,} from "lucide-react";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Check } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
+
+import { Axios } from "@/app/config/axios";
 import AuthHeader from "@/components/auth-header";
-import { FloatingLabelInput } from "@/components/floating-label-input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitButton } from "@/components/auth-buttons";
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -16,6 +21,7 @@ const formSchema = z.object({
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -24,19 +30,36 @@ export default function ForgotPasswordPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    try {
+      await Axios.post("/password-reset/request", {
+        email: values.email,
+      });
 
+      toast.success("Reset link sent to your email");
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("Error sending reset email:", error);
+      const errorMessage =
+        (error as AxiosError<{ message: string }>)?.response?.data?.message ||
+        "Failed to send reset email. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
       <AuthHeader buttonText="Login" onButtonClick={() => router.push("/auth/login")} />
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-[20vw]">
+        <div className="w-full max-w-[25vw]">
           <div className="flex flex-col gap-[0.521vw] mb-6">
             <h1 className="text-primary font-medium text-[1.667vw]">Forgot Password</h1>
-            <p className="text-soft-black text-[1.042vw]">Enter your email address for a link to update your password.</p>
+            <p className="text-soft-black text-sm">
+              Enter your email address for a link to update your password.
+            </p>
           </div>
 
           <Form {...form}>
@@ -61,14 +84,14 @@ export default function ForgotPasswordPage() {
                 )}
               />
 
-              <SubmitButton text="Send Reset Info" />
+              <SubmitButton
+                text={isLoading ? "Sending..." : "Send Reset Info"}
+                disabled={isLoading}
+              />
             </form>
           </Form>
-
-          
         </div>
       </div>
-          
     </div>
   );
 }

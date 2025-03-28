@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { BottomNav } from "@/components/bottom-nav";
 
 export default function LinkAccountPage() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function LinkAccountPage() {
   };
 
   const handleFinish = () => {
-    router.push("/dashboard");
+    router.push("/metrics");
   };
 
   const handleBack = () => {
@@ -48,7 +49,7 @@ export default function LinkAccountPage() {
   ];
 
   return (
-    <Card className="w-full max-w-3xl">
+    <Card className="w-full max-w-3xl mb-24">
       <div className="space-y-8 p-6">
         <div className="space-y-6">
           <div className="space-y-4">
@@ -85,16 +86,7 @@ export default function LinkAccountPage() {
           </div>
         </div>
       </div>
-
-      {/* Fixed bottom buttons */}
-      <div className="fixed w-full bottom-0 left-0 right-0 bg-white border-t p-4">
-        <div className="container mw-full flex justify-between items-center">
-          <Button variant="ghost" onClick={handleBack}>
-            Back
-          </Button>
-          <Button onClick={handleFinish}>Finish</Button>
-        </div>
-      </div>
+      <BottomNav onBack={handleBack} onNext={handleFinish} nextLabel="Finish" />
     </Card>
   );
 }

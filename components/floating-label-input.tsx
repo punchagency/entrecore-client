@@ -1,28 +1,28 @@
 import * as React from "react";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { Input, InputProps } from "@/components/ui/input";
 
-interface FloatingLabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface FloatingLabelInputProps extends Omit<InputProps, "size"> {
   label: string;
 }
 
 export const FloatingLabelInput = React.forwardRef<HTMLInputElement, FloatingLabelInputProps>(
-  ({ label, type = "text", value, onChange, name, ...props }, ref) => {
+  ({ label, type = "text", value, onChange, name, className, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== "";
 
     return (
       <div className="relative">
         <Input
-          {...props}
           ref={ref}
           type={type}
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full px-[0.781vw] py-[1.5vw] border-1 border-gray text-soft-black bg-white rounded-[0.208vw] peer focus:outline-none focus:border-primary focus:ring-0 focus-visible:ring-0"
+          className={`w-full px-[0.781vw] py-[1.5vw] border-1 border-gray text-soft-black bg-white rounded-[0.208vw] peer focus:outline-none focus:border-primary focus:ring-0 focus-visible:ring-0 ${className || ""}`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          {...props}
         />
         <label
           htmlFor={name}
