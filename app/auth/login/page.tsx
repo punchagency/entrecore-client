@@ -41,7 +41,7 @@ export default function LoginPage() {
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
       <AuthHeader buttonText="Create Account" onButtonClick={() => router.push("/auth/signup")} />
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-[20vw]">
+        <div className="w-full max-w-[25vw]">
           <div className="flex flex-col gap-[0.521vw] mb-6">
             <h1 className="text-primary font-medium text-[1.667vw]">Login</h1>
             <p className="text-soft-black text-[1.042vw]">Welcome back</p>

@@ -1,15 +1,20 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 import { Check } from "lucide-react";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+
+import { Axios } from "@/app/config/axios";
 import AuthHeader from "@/components/auth-header";
-import { FloatingLabelInput } from "@/components/floating-label-input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import CustomPhoneInput from "@/components/phone-input";
+import { FloatingLabelInput } from "@/components/floating-label-input";
 import { GoogleButton, SubmitButton } from "@/components/auth-buttons";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -24,6 +29,18 @@ const formSchema = z.object({
   phone_number: z.string().min(10, "Invalid phone number"),
 });
 
+interface ValidationError {
+  type: string;
+  loc: string[];
+  msg: string;
+  input: Record<string, unknown>;
+  url: string;
+}
+
+interface ErrorResponse {
+  detail: ValidationError[];
+}
+
 export default function SignupPage() {
   const router = useRouter();
 
@@ -37,19 +54,55 @@ export default function SignupPage() {
     },
   });
 
-  const onSubmit = () => {
-    router.push("/auth/create-password");
-  }
+  const { mutate: submitSignup, isPending } = useMutation({
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      const response = await Axios.post("/signup", data);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("Account created successfully!", {
+        position: "top-center",
+      });
+      setTimeout(() => {
+        router.push("/auth/create-password");
+      }, 1500);
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data?.detail) {
+        const validationErrors = error.response.data.detail;
+        validationErrors.forEach((err) => {
+          const field = err.loc[1] as "email" | "first_name" | "last_name" | "phone_number";
+          form.setError(field, {
+            type: "manual",
+            message: err.msg,
+          });
+        });
+        toast.error("Please fix the errors in the form", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Something went wrong. Please try again.", {
+          position: "top-center",
+        });
+      }
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
+    submitSignup(data);
+  };
 
   const handleGoogleSignup = () => {
     console.log("Google signup");
   };
 
+  const isFormValid = form.formState.isValid && !isPending;
+
   return (
     <div className="w-full h-screen flex flex-col bg-[#F0F4FF]">
       <AuthHeader buttonText="Login" onButtonClick={() => router.push("/auth/login")} />
       <div className="flex-1 flex items-center justify-center">
-        <div className="w-[20vw]">
+        <div className="w-full max-w-[25vw]">
           <div className="flex flex-col gap-[0.521vw] mb-6">
             <h1 className="text-primary font-medium text-[1.667vw]">Signup</h1>
             <p className="text-soft-black text-[1.042vw]">Create your account</p>
@@ -58,13 +111,13 @@ export default function SignupPage() {
           <GoogleButton text="Sign up with Google" onClick={handleGoogleSignup} />
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
               <div className="flex gap-2">
                 <FormField
                   control={form.control}
                   name="first_name"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
                         <div className="relative">
                           <FloatingLabelInput label="First Name" {...field} />
@@ -84,7 +137,7 @@ export default function SignupPage() {
                   control={form.control}
                   name="last_name"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
                         <div className="relative">
                           <FloatingLabelInput label="Last Name" {...field} />
@@ -143,7 +196,11 @@ export default function SignupPage() {
                 )}
               />
 
-              <SubmitButton text="Create Password" />
+              <SubmitButton
+                text={isPending ? "Creating Account..." : "Create Account"}
+                disabled={!isFormValid || isPending}
+                isLoading={isPending}
+              />
             </form>
           </Form>
         </div>

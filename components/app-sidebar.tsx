@@ -18,7 +18,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { toggleSidebar, state } = useSidebar();
+  const { state } = useSidebar();
   const isActive = (url: string) => pathname.includes(url);
 
   const sidebarTopItems = [
